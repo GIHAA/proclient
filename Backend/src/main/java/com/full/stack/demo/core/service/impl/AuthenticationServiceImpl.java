@@ -76,6 +76,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .orElseThrow(() -> new IllegalArgumentException(messageSource.getMessage(USER_LOGIN_FAILED, null, Locale.ENGLISH)));
         var jwt = jwtService.generateToken(user);
 
-        return new ResponseEntityDto(false, JwtAuthenticationResponse.builder().token(jwt).build());
+        JwtAuthenticationResponse response = JwtAuthenticationResponse.builder().token(jwt).build();
+
+        UserResponseDto userResponseDto = mapper.userToUserResponseDto(user);
+
+        response.setUser(userResponseDto);
+
+        return new ResponseEntityDto(false, response);
     }
 }
