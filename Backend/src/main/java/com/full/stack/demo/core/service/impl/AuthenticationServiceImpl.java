@@ -1,6 +1,5 @@
 package com.full.stack.demo.core.service.impl;
 
-import com.full.stack.demo.core.common.MapStructMapper;
 import com.full.stack.demo.core.model.User;
 import com.full.stack.demo.core.payload.JwtAuthenticationResponse;
 import com.full.stack.demo.core.payload.SigninRequest;
@@ -10,7 +9,6 @@ import com.full.stack.demo.core.payload.dto.UserResponseDto;
 import com.full.stack.demo.core.repository.UserDao;
 import com.full.stack.demo.core.service.AuthenticationService;
 import com.full.stack.demo.core.service.JwtService;
-import com.full.stack.demo.core.type.Role;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,14 +42,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @NonNull
     private final MessageSource messageSource;
 
-//    @NonNull
-//    private final EmployeeService employeeService;
-//
-//    @NonNull
-//    private final SupplierService supplierService;
 
-    @NonNull
-    private final MapStructMapper mapper;
+
 
     @Override
     public ResponseEntityDto signup(SignupRequest request) {
@@ -67,9 +59,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         JwtAuthenticationResponse response = JwtAuthenticationResponse.builder().token(jwt).build();
 
-        UserResponseDto userResponseDto = mapper.userToUserResponseDto(user);
+        //UserResponseDto userResponseDto = mapper.userToUserResponseDto(user);
 
-        response.setUser(userResponseDto);
+        response.setUser(null);
 
         return new ResponseEntityDto(false, response);
     }
