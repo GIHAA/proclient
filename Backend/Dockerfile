@@ -1,13 +1,27 @@
-# Stage 1: Build the application
-FROM maven:3.6.3-openjdk-11 AS build
-WORKDIR /app
-COPY pom.xml /app
-COPY src /app/src
-RUN mvn clean install
+FROM maven:3.8.3-openjdk-17 AS DEPS
 
-# Stage 2: Create a minimal runtime image
-FROM openjdk:11-jre-slim
-WORKDIR /app
-COPY --from=build /app/target/demo-0.0.1-SNAPSHOT.jar /app/demo.jar
-EXPOSE 8080
-CMD ["java", "-jar", "demo.jar"]
+WORKDIR /opt/app
+
+COPY pom.xml .
+COPY ./pom.xml pom.xml
+
+RUN mvn dependency:go-offline -B
+
+FROM maven:3.8.3-openjdk-17 AS BUILDER
+
+WORKDIR /opt/app
+
+COPY --from=deps /root/.m2 /root/.m2
+COPY --from=deps /opt/app/ /opt/app
+
+COPY src /opt/app/src
+
+RUN mvn package -B -DskipTests=true
+
+FROM gcr.io/distroless/java17-debian11
+
+WORKDIR /opt/app
+
+COPY --from=builder /opt/app/target/*.jar demo.jar
+
+ENTRYPOINT ["java", "-jar", "/opt/app/demo.jar"]
