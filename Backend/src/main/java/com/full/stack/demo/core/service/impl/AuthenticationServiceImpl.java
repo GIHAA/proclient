@@ -1,16 +1,28 @@
 package com.full.stack.demo.core.service.impl;
 
+import com.full.stack.demo.core.common.MapStructMapper;
 import com.full.stack.demo.core.model.User;
+import com.full.stack.demo.core.payload.JwtAuthenticationResponse;
+import com.full.stack.demo.core.payload.SigninRequest;
+import com.full.stack.demo.core.payload.SignupRequest;
+import com.full.stack.demo.core.payload.common.ResponseEntityDto;
+import com.full.stack.demo.core.payload.dto.UserResponseDto;
 import com.full.stack.demo.core.repository.UserDao;
 import com.full.stack.demo.core.service.AuthenticationService;
 import com.full.stack.demo.core.service.JwtService;
+import com.full.stack.demo.core.type.Role;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Locale;
+
+import static com.full.stack.demo.core.common.ModuleConstants.ServerErrorMessages.USER_LOGIN_FAILED;
 
 @Slf4j
 @Service
@@ -54,15 +66,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         var jwt = jwtService.generateToken(user);
 
         JwtAuthenticationResponse response = JwtAuthenticationResponse.builder().token(jwt).build();
-        if(request.getRole().equals(Role.SUPPLIER)){
-            SupplierCreateDto supplierCreateDto = new SupplierCreateDto(request.getFirstName(), request.getLocation(), request.getEmail());
-            SupplierResponseDto supplierResponseDto = supplierService.createSupplier(supplierCreateDto, user);
-            response.setSupplier(supplierResponseDto);
-        }
-        else {
-            EmployeeResponseDto employeeResponseDto = employeeService.createEmployee(mapper.employeeToEmployeeDto(request), user);
-            response.setEmployee(employeeResponseDto);
-        }
+
+        UserResponseDto userResponseDto = mapper.userToUserResponseDto(user);
+
+        response.setUser(userResponseDto);
 
         return new ResponseEntityDto(false, response);
     }

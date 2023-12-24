@@ -1,12 +1,22 @@
 package com.full.stack.demo.core.common;
 
 
+import com.full.stack.demo.core.model.User;
+import com.full.stack.demo.core.payload.dto.UserResponseDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 
 @Mapper(componentModel = "spring")
 public interface MapStructMapper {
+
+    @Mapping(target = "user.id" , source = "id")
+    @Mapping(target = "user.firstName" , source = "firstName")
+    @Mapping(target = "user.lastname" , source = "lastname")
+    @Mapping(target = "user.email" , source = "email")
+    @Mapping(target = "user.dateOfBirth" , source = "dateOfBirth")
+    @Mapping(target = "user.userRole" , source = "role")
+    UserResponseDto userToUserResponseDto(User user);
 
 //    @Mapping(target = "dob", source = "user.dob")
 //    @Mapping(target = "gender", source = "user.gender")
