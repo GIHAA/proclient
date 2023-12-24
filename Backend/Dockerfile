@@ -1,21 +1,13 @@
-# Use an official OpenJDK runtime as a parent image
-FROM openjdk:11-jre-slim
-
-# Set the working directory to /app
+# Stage 1: Build the application
+FROM maven:3.6.3-openjdk-11 AS build
 WORKDIR /app
-
-# Copy the current directory contents into the container at /app
-COPY . /app
-
-# Build the application with Maven
-RUN apt-get update && apt-get install -y maven
+COPY pom.xml /app
+COPY src /app/src
 RUN mvn clean install
 
-# Make port 8080 available to the world outside this container
+# Stage 2: Create a minimal runtime image
+FROM openjdk:11-jre-slim
+WORKDIR /app
+COPY --from=build /app/target/demo-0.0.1-SNAPSHOT.jar /app/demo.jar
 EXPOSE 8080
-
-# Define environment variable
-ENV NAME World
-
-# Run the application when the container launches
-CMD ["java", "-jar", "target/demo-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "demo.jar"]
