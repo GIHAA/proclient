@@ -120,14 +120,11 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public ResponseEntityDto deleteCustomer(String id) {
-        // Retrieve the customer by ID
         Customer customerToDelete = customerDao.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Customer not found with id: " + id));
 
-        // Delete the customer using the DAO
         customerDao.delete(customerToDelete);
 
-        // Convert the deleted Customer entity to CustomerResponseDto and return
         CustomerResponseDto customerResponseDto  = customerToCustomerResponceDto(customerToDelete);
         return new ResponseEntityDto(false, customerResponseDto);
     }
