@@ -24,4 +24,4 @@ WORKDIR /opt/app
 
 COPY --from=builder /opt/app/target/*.jar demo.jar
 
-ENTRYPOINT ["java", "-jar", "/opt/app/demo.jar"]
+ENTRYPOINT ["java", "-jar", "/opt/app/pro-client-manager.jar"]
