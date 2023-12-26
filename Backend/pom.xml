@@ -14,7 +14,7 @@
 	<name>pro-client-manager</name>
 	<description>Customer management system</description>
 	<properties>
-		<java.version>21</java.version>
+		<java.version>17</java.version>
 	</properties>
 	<dependencies>
 		<dependency>

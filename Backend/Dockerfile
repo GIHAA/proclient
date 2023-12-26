@@ -1,4 +1,4 @@
-FROM maven:3.8.3-openjdk-19 AS DEPS
+FROM maven:3.8.3-openjdk-17 AS DEPS
 
 WORKDIR /opt/app
 
