@@ -1,4 +1,4 @@
-package com.demo.proclientmanager.common.constants;
+package com.demo.proclientmanager.common;
 
 public class ModuleConstants {
 

@@ -1,5 +1,6 @@
 package com.demo.proclientmanager.model;
 
+
 import com.demo.proclientmanager.common.types.Gender;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
