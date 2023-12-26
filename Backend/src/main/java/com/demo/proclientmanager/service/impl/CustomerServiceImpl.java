@@ -1,8 +1,9 @@
 package com.demo.proclientmanager.service.impl;
 
 
-import com.demo.proclientmanager.common.mapper.Mapper;
+import com.demo.proclientmanager.exception.ModuleException;
 import com.demo.proclientmanager.model.Customer;
+import com.demo.proclientmanager.payload.common.ErrorResponse;
 import com.demo.proclientmanager.payload.common.ResponseEntityDto;
 import com.demo.proclientmanager.payload.dto.CustomerCreateDto;
 import com.demo.proclientmanager.payload.dto.CustomerEditDto;
@@ -11,10 +12,17 @@ import com.demo.proclientmanager.repository.CustomerDao;
 import com.demo.proclientmanager.service.CustomerService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static com.demo.proclientmanager.common.ModuleConstants.AppErrorMessages.*;
 
 @Service
 @RequiredArgsConstructor
@@ -24,50 +32,94 @@ public class CustomerServiceImpl implements CustomerService {
     private final CustomerDao customerDao;
 
     @NonNull
-    private final Mapper mapper;
+    private MessageSource messageSource;
+
 
     @Override
     public ResponseEntityDto createCustomer(CustomerCreateDto customerCreateDto) {
-        // Convert CustomerCreateDto to Customer entity
-        Customer customer = mapper.customerCreateDtoToCustomer(customerCreateDto);
-        System.out.println(customer);
-        // Save the customer using the DAO
+
+        Optional<Customer> checkCustomer = customerDao.findCustomerByEmail(customerCreateDto.getEmail());
+
+        if(checkCustomer.isPresent()){
+            throw new ModuleException(String.format(messageSource.getMessage(EMAIL_ALREADY_IN_USE , null, Locale.ENGLISH),
+                    customerCreateDto.getEmail()));
+        }
+        if (    customerCreateDto.getFirstName() == null ||
+                customerCreateDto.getLastName() == null ||
+                customerCreateDto.getEmail() == null ||
+                customerCreateDto.getPhoneNumber() == null ||
+                customerCreateDto.getGender() == null ||
+                customerCreateDto.getDob() == null) {
+            throw new ModuleException(String.format(messageSource.getMessage(REQUEST_BODY_IS_MISSING_PAYLOAD , null, Locale.ENGLISH)));
+        }
+
+        Customer customer = customerCreateDtoToCustomer(customerCreateDto);
+
         Customer savedCustomer = customerDao.save(customer);
 
-        CustomerResponseDto customerResponseDto  = mapper.customerToCustomerResponceDto(savedCustomer);
-        // Convert the saved Customer entity to CustomerResponseDto and return
-        return new ResponseEntityDto(false, customerResponseDto);
+        return new ResponseEntityDto(false, savedCustomer);
     }
 
     @Override
-    public List<CustomerResponseDto> getCustomers() {
-        // Retrieve all customers from the DAO
+    public ResponseEntityDto getCustomers() {
+
         List<Customer> customers = customerDao.findAll();
-
-        // Convert the list of Customer entities to a list of CustomerResponseDto and return
-        return customers.stream()
-                .map(this::mapEntityToResponseDto)
+        customers.stream()
+                .map(this::customerToCustomerResponceDto)
                 .collect(Collectors.toList());
+
+        return new ResponseEntityDto(false, customers);
     }
 
     @Override
-    public CustomerResponseDto editCustomer(CustomerEditDto customerEditDto) {
-        // Retrieve the existing customer by ID
-        Customer existingCustomer = customerDao.findById(customerEditDto.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Customer not found with id: " + customerEditDto.getId()));
+    public ResponseEntityDto getOneCustomer(String id) {
+        Optional<Customer> customer = customerDao.findById(id);
 
-        // Update the existing customer with the new data
-        updateCustomerFromEditDto(existingCustomer, customerEditDto);
+        if(customer.isEmpty()){
+            throw new ModuleException(String.format(messageSource.getMessage(CUSTOMER_NOT_FOUND, null, Locale.ENGLISH),
+                    id));
+        }
 
-        // Save the updated customer using the DAO
-        Customer updatedCustomer = customerDao.save(existingCustomer);
+        return new ResponseEntityDto(false, customer);
+    }
 
-        // Convert the updated Customer entity to CustomerResponseDto and return
-        return mapEntityToResponseDto(updatedCustomer);
+
+    @Override
+    public ResponseEntityDto editCustomer(CustomerEditDto customerEditDto) {
+
+        Optional<Customer> existingCustomer = customerDao.findById(customerEditDto.getId());
+
+        if(existingCustomer.isEmpty()){
+            throw new ModuleException(String.format(messageSource.getMessage(CUSTOMER_NOT_FOUND, null, Locale.ENGLISH),
+                    customerEditDto.getId()));
+        }
+
+        if (customerEditDto.getFirstName() != null) {
+            existingCustomer.get().setFirstName(customerEditDto.getFirstName());
+        }
+        if (customerEditDto.getLastName() != null) {
+            existingCustomer.get().setLastName(customerEditDto.getLastName());
+        }
+        if (customerEditDto.getEmail() != null) {
+            existingCustomer.get().setEmail(customerEditDto.getEmail());
+        }
+        if (customerEditDto.getPhoneNumber() != null) {
+            existingCustomer.get().setPhoneNumber(customerEditDto.getPhoneNumber());
+        }
+        if (customerEditDto.getGender() != null) {
+            existingCustomer.get().setGender(customerEditDto.getGender());
+        }
+        if (customerEditDto.getDob() != null) {
+            existingCustomer.get().setDob(customerEditDto.getDob());
+        }
+
+        Customer updatedCustomer = customerDao.save(existingCustomer.get());
+
+        return new ResponseEntityDto(false, updatedCustomer);
     }
 
     @Override
-    public CustomerResponseDto deleteCustomer(String id) {
+    public ResponseEntityDto deleteCustomer(String id) {
         // Retrieve the customer by ID
         Customer customerToDelete = customerDao.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Customer not found with id: " + id));
@@ -76,26 +128,35 @@ public class CustomerServiceImpl implements CustomerService {
         customerDao.delete(customerToDelete);
 
         // Convert the deleted Customer entity to CustomerResponseDto and return
-        return mapEntityToResponseDto(customerToDelete);
+        CustomerResponseDto customerResponseDto  = customerToCustomerResponceDto(customerToDelete);
+        return new ResponseEntityDto(false, customerResponseDto);
     }
 
-    // Helper method to map CustomerCreateDto to Customer entity
-    private Customer mapCreateDtoToEntity(CustomerCreateDto createDto) {
-        // Implement mapping logic here
-        // Example: return new Customer(createDto.getName(), createDto.getEmail(), ...);
-        return null;
+
+    public CustomerResponseDto customerToCustomerResponceDto(Customer customer) {
+        CustomerResponseDto customerResponseDto = new CustomerResponseDto();
+        customerResponseDto.setId(customer.getId());
+        customerResponseDto.setGender(customer.getGender());
+        customerResponseDto.setEmail(customer.getEmail());
+        customerResponseDto.setFirstName(customer.getFirstName());
+        customerResponseDto.setLastName(customer.getLastName());
+        customerResponseDto.setDob(customer.getDob());
+        customerResponseDto.setPhoneNumber(customer.getPhoneNumber());
+
+        return  customerResponseDto;
     }
 
-    // Helper method to map Customer entity to CustomerResponseDto
-    private CustomerResponseDto mapEntityToResponseDto(Customer customer) {
-        // Implement mapping logic here
-        // Example: return new CustomerResponseDto(customer.getId(), customer.getName(), customer.getEmail(), ...);
-        return null;
-    }
 
-    // Helper method to update Customer entity from CustomerEditDto
-    private void updateCustomerFromEditDto(Customer customer, CustomerEditDto editDto) {
-        // Implement update logic here
-        // Example: customer.setName(editDto.getName()); customer.setEmail(editDto.getEmail()); ...
+    public Customer customerCreateDtoToCustomer(CustomerCreateDto customerCreateDto) {
+        Customer customer = new Customer();
+        customer.setId(customerCreateDto.getId());
+        customer.setGender(customerCreateDto.getGender());
+        customer.setEmail(customerCreateDto.getEmail());
+        customer.setFirstName(customerCreateDto.getFirstName());
+        customer.setLastName(customerCreateDto.getLastName());
+        customer.setDob(customerCreateDto.getDob());
+        customer.setPhoneNumber(customerCreateDto.getPhoneNumber());
+
+        return  customer;
     }
 }
