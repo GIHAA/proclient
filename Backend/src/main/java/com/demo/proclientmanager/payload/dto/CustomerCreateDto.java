@@ -8,7 +8,7 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class CreateCustomerDto {
+public class CustomerCreateDto {
     private String id;
     private String firstName;
     private String lastName;

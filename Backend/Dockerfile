@@ -22,6 +22,6 @@ FROM gcr.io/distroless/java17-debian11
 
 WORKDIR /opt/app
 
-COPY --from=builder /opt/app/target/*.jar demo.jar
+COPY --from=builder /opt/app/target/*.jar pro-client-manager.jar
 
 ENTRYPOINT ["java", "-jar", "/opt/app/pro-client-manager.jar"]
