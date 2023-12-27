@@ -4,7 +4,7 @@ import "react-datepicker/dist/react-datepicker.css"
 import PhoneInput  from "react-phone-input-2"
 import "react-phone-input-2/lib/style.css"
 import { toast } from "react-toastify"
-import customerService from "../api/CustomerService"
+import customerService from "../api/customerService"
 import { emailValidator } from "../helpers/emailValidator"
 import { inputValidator } from "../helpers/inputValidator"
 import { phoneNumebrValidator } from "../helpers/phoneNumebrValidator"
@@ -22,18 +22,18 @@ const CreateCustomerForm = ({setDisplayCreateFrom , fetchData } : any) => {
 
   const upLoadImage = async (e) => {}
 
-  const displayValues = () => {
-    const values = {
-      imageUrl,
-      firstName: firstName.value,
-      lastName: lastName.value,
-      email: email.value,
-      phoneNumber: phoneNumber.value,
-      gender: gender.value,
-      dob: dob.value,
-    };
-    alert(JSON.stringify(values, null, 2));
-  };
+  // const displayValues = () => {
+  //   const values = {
+  //     imageUrl,
+  //     firstName: firstName.value,
+  //     lastName: lastName.value,
+  //     email: email.value,
+  //     phoneNumber: phoneNumber.value,
+  //     gender: gender.value,
+  //     dob: dob.value,
+  //   };
+  //   alert(JSON.stringify(values, null, 2));
+  // };
 
 
   const onAddCustomer = () => {
@@ -53,7 +53,6 @@ const CreateCustomerForm = ({setDisplayCreateFrom , fetchData } : any) => {
       setGender({ ...gender, error : genderError})
       return
     }
-    displayValues()
 
     customerService.createCustomer({
       firstName: firstName.value,

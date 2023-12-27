@@ -4,9 +4,7 @@ import "react-datepicker/dist/react-datepicker.css"
 import PhoneInput  from "react-phone-input-2"
 import "react-phone-input-2/lib/style.css"
 import { toast } from "react-toastify"
-import customerService from "../api/CustomerService"
-import { emailValidator } from "../helpers/emailValidator"
-import { inputValidator } from "../helpers/inputValidator"
+import customerService from "../api/customerService"
 import { phoneNumebrValidator } from "../helpers/phoneNumebrValidator"
 
 const EditCustomerForm = ({setDisplayUpdateForm , fetchData , target  } : any) => {
@@ -18,22 +16,8 @@ const EditCustomerForm = ({setDisplayUpdateForm , fetchData , target  } : any) =
   const [gender, setGender] = useState({ value: "", error: "" })
   const [dob, setdob] = useState({ value: "", error: "" })
 
-  const [value, setValue] = useState()
 
   const upLoadImage = async (e) => {}
-
-  const displayValues = () => {
-    const values = {
-      imageUrl,
-      firstName: firstName.value,
-      lastName: lastName.value,
-      email: email.value,
-      phoneNumber: phoneNumber.value,
-      gender: gender.value,
-      dob: dob.value,
-    };
-    alert(JSON.stringify(values, null, 2));
-  };
 
 
   const onUpdateCustomer = () => {

@@ -4,10 +4,10 @@ import Sidebar from "./Sidebar"
 import Placeholder from "./PlaceHolder"
 import { PdfGenerator } from "../utils/pdfGenerator"
 import CreateCustomerForm from "../components/CreateCustomerForm"
-import customerService from "../api/CustomerService"
+import customerService from "../api/customerService"
 import EditCustomerForm from "../components/EditCustomerForm"
 
-const Inventory = () => {
+const Home = () => {
   const [displayCreateFrom, setDisplayCreateFrom] = useState(false)
   const [displayUpdateFrom, setDisplayUpdateForm] = useState(false)
   const [data, setData] = useState([])
@@ -367,4 +367,4 @@ const Inventory = () => {
   )
 }
 
-export default Inventory
+export default Home
