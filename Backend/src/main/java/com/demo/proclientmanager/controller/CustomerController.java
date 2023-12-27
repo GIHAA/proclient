@@ -28,8 +28,10 @@ public class CustomerController {
     }
 
     @GetMapping
-    public ResponseEntity<ResponseEntityDto> getAllCustomers() {
-        ResponseEntityDto response = customerService.getCustomers();
+    public ResponseEntity<ResponseEntityDto> getAllCustomers(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        ResponseEntityDto response = customerService.getCustomers(page, size);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -39,6 +41,14 @@ public class CustomerController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<ResponseEntityDto> searchCustomers(
+            @RequestParam String searchTerm,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        ResponseEntityDto response = customerService.searchCustomers(searchTerm, page, size);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
     @PutMapping
     public ResponseEntity<ResponseEntityDto> updateCustomer(@RequestBody CustomerEditDto customerEditDto) {
         ResponseEntityDto response = customerService.editCustomer(customerEditDto);

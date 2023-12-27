@@ -9,10 +9,11 @@ import java.util.List;
 
 public interface CustomerService {
     ResponseEntityDto createCustomer(CustomerCreateDto customer);
-    ResponseEntityDto getCustomers();
+    ResponseEntityDto getCustomers(int page, int size);
     ResponseEntityDto getOneCustomer(String id);
 
     ResponseEntityDto deleteCustomer(String id);
     ResponseEntityDto editCustomer(CustomerEditDto customer);
+    ResponseEntityDto searchCustomers(String searchTerm, int page, int size);
 
 }

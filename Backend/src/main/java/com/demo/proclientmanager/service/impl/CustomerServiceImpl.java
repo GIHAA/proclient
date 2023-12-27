@@ -13,11 +13,11 @@ import com.demo.proclientmanager.service.CustomerService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static com.demo.proclientmanager.common.ModuleConstants.AppErrorMessages.*;
 
@@ -52,7 +52,10 @@ public class CustomerServiceImpl implements CustomerService {
 
 
         Customer customer = customerCreateDtoToCustomer(customerCreateDto);
-        String id = String.valueOf(UUID.randomUUID());
+        String timestamp = String.valueOf(System.currentTimeMillis()).toString().substring(0,4);
+        String uuid = UUID.randomUUID().toString().substring(0, 5);
+
+        String id = String.format("%s-%s", timestamp, uuid);
 
         switch (customer.getGender()){
             case MALE:
@@ -85,14 +88,11 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public ResponseEntityDto getCustomers() {
+    public ResponseEntityDto getCustomers(int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<Customer> customerPage = customerDao.findAll(pageRequest);
 
-        List<Customer> customers = customerDao.findAll();
-        customers.stream()
-                .map(this::customerToCustomerResponceDto)
-                .collect(Collectors.toList());
-
-        return new ResponseEntityDto(false, customers);
+        return new ResponseEntityDto(false, customerPage);
     }
 
     @Override
@@ -153,6 +153,17 @@ public class CustomerServiceImpl implements CustomerService {
         return new ResponseEntityDto(false, customerResponseDto);
     }
 
+    @Override
+    public ResponseEntityDto searchCustomers(String searchTerm, int page, int size) {
+        if (searchTerm == null || searchTerm.isEmpty()) {
+            throw new ModuleException("Search term cannot be empty");
+        }
+
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<Customer> searchResults = customerDao.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCaseOrEmailContainingIgnoreCase(searchTerm, searchTerm, searchTerm, pageRequest);
+
+        return new ResponseEntityDto(false, searchResults);
+    }
 
     public CustomerResponseDto customerToCustomerResponceDto(Customer customer) {
         CustomerResponseDto customerResponseDto = new CustomerResponseDto();
@@ -166,7 +177,6 @@ public class CustomerServiceImpl implements CustomerService {
 
         return  customerResponseDto;
     }
-
 
     public Customer customerCreateDtoToCustomer(CustomerCreateDto customerCreateDto) {
         Customer customer = new Customer();
