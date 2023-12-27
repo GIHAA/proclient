@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react"
-import { toast } from "react-toastify"
+import { toast, ToastContent } from "react-toastify"
 import Sidebar from "./Sidebar"
 import Placeholder from "./PlaceHolder"
 import { PdfGenerator } from "../utils/pdfGenerator"
 import CreateCustomerForm from "../components/CreateCustomerForm"
-import customerService from "../api/customerService"
+import customerService from "../api/CustomerService"
 import EditCustomerForm from "../components/EditCustomerForm"
+import { stringify } from "postcss"
 
 const Home = () => {
   const [displayCreateFrom, setDisplayCreateFrom] = useState(false)
@@ -21,14 +22,10 @@ const Home = () => {
   const [loading, setLoading] = useState(true)
 
 
-  const toggleDropdown = (itemId) => {
+  const toggleDropdown = (itemId :any) => {
     setShowDropdown(!showDropdown)
     setSelectedItemId(itemId)
   }
-
-
-  const onUpdateChange = (e) =>
-    setUpdateFormdata({ ...updateFormData, [e.target.name]: e.target.value })
 
 
   const fetchData = async () => {
@@ -56,12 +53,12 @@ const Home = () => {
     setLoading(false)
   }, [])
 
-  const handleShow = (itemId) => {
+  const handleShow = (itemId:string) => {
     console.log(`Show item with ID: ${itemId}`)
   }
 
 
-  const handleDelete = async (cus) => {
+  const handleDelete = async (cus :any) => {
     try {
       toast.warn(
         <div>
@@ -107,7 +104,7 @@ const Home = () => {
         { autoClose: false },
       )
     } catch (error) {
-      toast.error(error)
+      toast.error(error as ToastContent<unknown>);
     }
   }
 
@@ -115,7 +112,7 @@ const Home = () => {
   const filterPrompts = (searchtext : string) => {
     const regex = new RegExp(searchtext, "i")
     return data.filter(
-      (one) => regex.test(one.firstName) || regex.test(one.lastName),
+      (one) => regex.test(one.firstName ) || regex.test(one.lastName),
     )
   }
 

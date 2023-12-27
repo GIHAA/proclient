@@ -4,7 +4,7 @@ import "react-datepicker/dist/react-datepicker.css"
 import PhoneInput  from "react-phone-input-2"
 import "react-phone-input-2/lib/style.css"
 import { toast } from "react-toastify"
-import customerService from "../api/customerService"
+import customerService from "../api/CustomerService"
 import { emailValidator } from "../helpers/emailValidator"
 import { inputValidator } from "../helpers/inputValidator"
 import { phoneNumebrValidator } from "../helpers/phoneNumebrValidator"
@@ -16,11 +16,11 @@ const CreateCustomerForm = ({setDisplayCreateFrom , fetchData } : any) => {
   const [email, setemail] = useState({ value: "", error: "" })
   const [phoneNumber, setphoneNumber] = useState({ value: "", error: "" })
   const [gender, setGender] = useState({ value: "", error: "" })
-  const [dob, setdob] = useState({ value: "", error: "" })
+  const [dob, setdob] = useState({ value: null , error: "" })
 
   const [value, setValue] = useState()
 
-  const upLoadImage = async (e) => {}
+  const upLoadImage = async () => {}
 
   // const displayValues = () => {
   //   const values = {
@@ -200,7 +200,7 @@ const CreateCustomerForm = ({setDisplayCreateFrom , fetchData } : any) => {
                   </label>
                   <DatePicker
                     id="dateOfBirth"
-                    selected={dob.value}
+                    selected={dob.value ? new Date(dob.value) : null}
                     onChange={ (date) =>  setdob({ ...dob, value:date })}
                     className={`bg-gray-50 border ${
                       dob.error ? "outline-red-500 outline outline-1" : ""
@@ -252,7 +252,7 @@ const CreateCustomerForm = ({setDisplayCreateFrom , fetchData } : any) => {
                   />
                   <button
                     className=" text-white outline-dashed outline-2 outline-offset-2 outline-blue-600 rounded-lg p-[6px]  mt-8 w-full text "
-                    onClick={() => document.getElementById("image").click()}
+              
                   >
                     Upload Image
                   </button>

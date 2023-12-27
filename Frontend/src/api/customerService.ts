@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BE_URL } from "./constants";
+import { BE_URL } from "./Constants";
 
 interface CustomerCreatePayload {
     name: string;
