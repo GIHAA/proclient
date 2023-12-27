@@ -10,7 +10,6 @@ import java.util.List;
 public interface CustomerService {
     ResponseEntityDto createCustomer(CustomerCreateDto customer);
     ResponseEntityDto getCustomers();
-
     ResponseEntityDto getOneCustomer(String id);
 
     ResponseEntityDto deleteCustomer(String id);

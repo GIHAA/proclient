@@ -1,32 +1,39 @@
-name: Backend CI/CD Pipeline
+name: Frontend CI/CD
 
 on:
   push:
     branches:
       - main
+      - develop
+      - dev/gihan
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
+      - name: Checkout Repository
+        uses: actions/checkout@v2
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '14'
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
 
-    - name: Install Dependencies
-      run: npm install
+      - name: Install Frontend Dependencies
+        working-directory: Frontend
+        run: npm install
 
-    - name: Run Tests
-      run: npm test
+      - name: Build Frontend
+        working-directory: Frontend
+        run: npm run build
+        env:
+          CI: false
 
-    - name: Build and Deploy
-      run: |
-        npm run build
-        # Add deployment steps or commands here
-      env:
-        CI: false
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@4.2.0
+        with:
+          branch: gh-pages
+          folder: Frontend/build
+          clean: true
+          token: ${{ secrets.TOKEN }}
