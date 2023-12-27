@@ -126,7 +126,7 @@ const Home = () => {
     <>
       <Sidebar />
 
-      <div className=" md:ml-64 h-auto ">
+      <div className=" md:ml-64 h-auto ml-[75px] ">
         <div className=" rounded-lg  dark:border-gray-600 h-screen ">
           <section className="bg-gray-50 dark:bg-gray-900 h-screen p-3 sm:p-5">
             <div className=" mx-auto max-w-screen-xl px-4 lg:px-2  pt-[50px]">

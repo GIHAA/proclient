@@ -79,15 +79,15 @@ const CreateCustomerForm = ({setDisplayCreateFrom , fetchData } : any) => {
 
   return (
     <>
-      <div className="backdrop-blur-sm bg-white/30 bg content absolute inset-0 flex flex-col justify-center items-center space-y-4">
+      <div className="backdrop-blur-sm md:ml-[230px] ml-[60px] bg-white/30 bg content absolute inset-0 flex flex-col justify-center items-center space-y-4">
         <section className="bg-white dark:bg-gray-900 rounded-xl mt-[50px]">
           <div className="py-8 px-4 mx-auto max-w-2xl lg:py-5 ">
             <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
               Add New Customer
             </h2>
             <div>
-              <div className="grid gap-4 sm:grid-cols-2 sm:gap-5">
-                <div className="sm:col-span-1">
+              <div className="grid gap-4 sm:grid-cols-2  grid-cols-1 sm:gap-5">
+                <div className="md:col-span-1 col-span-2">
                   <label
                     htmlFor="itemName"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -116,7 +116,7 @@ const CreateCustomerForm = ({setDisplayCreateFrom , fetchData } : any) => {
                   />
                 </div>
 
-                <div className="sm:col-span-1">
+                <div className="md:col-span-1 col-span-2">
                   <label
                     htmlFor="itemName"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -143,7 +143,7 @@ const CreateCustomerForm = ({setDisplayCreateFrom , fetchData } : any) => {
                   />
                 </div>
 
-                <div className="sm:col-span-2">
+                <div className="md:col-span-2 col-span-2">
                   <label
                     htmlFor="itemName"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -172,7 +172,7 @@ const CreateCustomerForm = ({setDisplayCreateFrom , fetchData } : any) => {
 
                 <div className="col-span-2 items-center border-gray-200 border-t dark:border-gray-700 justify-between"></div>
 
-                <div className="w-full">
+                <div className="w-full col-span-2 md:col-span-1 ">
                   <label
                     htmlFor="phoneNumber"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -191,7 +191,7 @@ const CreateCustomerForm = ({setDisplayCreateFrom , fetchData } : any) => {
                   </div>
                 </div>
 
-                <div className="w-full">
+                <div className="w-full col-span-2 md:col-span-1 ">
                   <label
                     htmlFor="dateOfBirth"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
