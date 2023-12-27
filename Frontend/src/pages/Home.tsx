@@ -4,7 +4,7 @@ import Sidebar from "./Sidebar"
 import Placeholder from "./PlaceHolder"
 import { PdfGenerator } from "../utils/pdfGenerator"
 import CreateCustomerForm from "../components/CreateCustomerForm"
-import customerService from "../api/CustomerService"
+import customerService from "../api/cusService"
 import EditCustomerForm from "../components/EditCustomerForm"
 import { stringify } from "postcss"
 
@@ -16,9 +16,6 @@ const Home = () => {
   const [selectedItemId, setSelectedItemId] = useState(null)
   const [updateFormData, setUpdateFormdata] = useState({})
   const [target, setTarget] = useState({})
-  const [searchText, setSearchText] = useState("")
-  const [searchTimeout, setSearchTimeout] = useState(null)
-  const [searchedResults, setSearchedResults] = useState([])
   const [loading, setLoading] = useState(true)
 
   const toggleDropdown = (itemId: any) => {

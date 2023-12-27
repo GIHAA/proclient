@@ -4,7 +4,7 @@ import "react-datepicker/dist/react-datepicker.css"
 import PhoneInput  from "react-phone-input-2"
 import "react-phone-input-2/lib/style.css"
 import { toast } from "react-toastify"
-import customerService from "../api/CustomerService"
+import customerService from "../api/cusService"
 import { phoneNumebrValidator } from "../helpers/phoneNumebrValidator"
 
 const EditCustomerForm = ({setDisplayUpdateForm , fetchData , target  } : any) => {
