@@ -1,5 +1,5 @@
 import axios from "axios";
-//import { BE_URL } from "./Constants";
+;
 
 const  BE_URL = "https://full-stack-project-zds1.onrender.com/api/v1"
 
@@ -16,8 +16,14 @@ const createCustomer = async (payload:any) =>{
     return response;
 }
 
-const getAllCustomers = async () =>{
-    const response = await axios.get(`${BE_URL}/customer`);
+const getAllCustomers = async (page: number = 0, size : number = 10) =>{
+    console.log(`${BE_URL}/customer?page=${page}&size=${size}`);
+    const response = await axios.get(`${BE_URL}/customer?page=${page}&size=${size}}`);
+    return response;
+}
+
+const searchCustomers = async (searchTerm : string) =>{
+    const response = await axios.get(`${BE_URL}/customer/search?searchTerm=${searchTerm}`);
     return response;
 }
 
@@ -35,7 +41,8 @@ const CustomerService = {
     createCustomer,
     getAllCustomers,
     updateCustomer,
-    deleteCustomer
+    deleteCustomer,
+    searchCustomers
 };
   
 export default CustomerService;
