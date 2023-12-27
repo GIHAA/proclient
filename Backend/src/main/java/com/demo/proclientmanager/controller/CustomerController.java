@@ -45,7 +45,7 @@ public class CustomerController {
     public ResponseEntity<ResponseEntityDto> searchCustomers(
             @RequestParam String searchTerm,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
+            @RequestParam(defaultValue = "5") int size) {
         ResponseEntityDto response = customerService.searchCustomers(searchTerm, page, size);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
