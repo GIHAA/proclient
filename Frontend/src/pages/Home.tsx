@@ -18,7 +18,7 @@ const Home = () => {
   const [target, setTarget] = useState({})
   const [loading, setLoading] = useState(true)
   const [currentPage, setCurrentPage] = useState(1)
-  const [pageSize, setPageSize] = useState(5)
+  const [pageSize, setPageSize] = useState(10)
   const [totalPages, setTotalPages] = useState(0)
   const [totalElements, setTotalElements] = useState(0)
 
@@ -189,7 +189,7 @@ const Home = () => {
                       type="button"
                       className="inline-flex items-center px-5 py-2.5  text-sm font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-primary-900 hover:bg-blue-800"
                       onClick={() => {
-                        //PdfGenerator()
+                        PdfGenerator(data)
                       }}
                     >
                       Export as PDF
