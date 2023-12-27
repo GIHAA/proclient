@@ -16,10 +16,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.demo.proclientmanager.common.ModuleConstants.AppErrorMessages.*;
@@ -53,7 +50,34 @@ public class CustomerServiceImpl implements CustomerService {
             throw new ModuleException(String.format(messageSource.getMessage(REQUEST_BODY_IS_MISSING_PAYLOAD , null, Locale.ENGLISH)));
         }
 
+
         Customer customer = customerCreateDtoToCustomer(customerCreateDto);
+        String id = String.valueOf(UUID.randomUUID());
+
+        switch (customer.getGender()){
+            case MALE:
+                id = "M-"+id;
+                break;
+            case FEMALE:
+                id = "F-"+id;
+                break;
+            case NOT_SPECIFIED:
+                id = "N-"+id;
+                break;
+            case NON_BINARY:
+                id = "NB-"+id;
+                break;
+            case PREFER_NOT_TO_SAY:
+                id = "P-"+id;
+                break;
+            case OTHER:
+                id = "O-"+id;
+                break;
+            default:
+                System.out.println("Invalid gender");
+        }
+
+        customer.setId(id);
 
         Customer savedCustomer = customerDao.save(customer);
 
