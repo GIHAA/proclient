@@ -16,9 +16,8 @@ const createCustomer = async (payload:any) =>{
     return response;
 }
 
-const getAllCustomers = async (page: number = 0, size : number = 10) =>{
-    console.log(`${BE_URL}/customer?page=${page}&size=${size}`);
-    const response = await axios.get(`${BE_URL}/customer?page=${page}&size=${size}}`);
+const getAllCustomers = async (page: number = 0, size : number = 5) =>{
+    const response = await axios.get(`${BE_URL}/customer?page=${page}&size=${size}`);
     return response;
 }
 
