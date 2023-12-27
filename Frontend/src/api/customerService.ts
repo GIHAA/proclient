@@ -1,5 +1,7 @@
 import axios from "axios";
-import { BE_URL } from "./Constants";
+//import { BE_URL } from "./Constants";
+
+const  BE_URL = "https://full-stack-project-zds1.onrender.com/api/v1"
 
 interface CustomerCreatePayload {
     name: string;
