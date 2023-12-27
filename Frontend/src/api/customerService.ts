@@ -31,11 +31,11 @@ const deleteCustomer = async (id : string) =>{
     return response;
 }
 
-const customerService = {
+const CustomerService = {
     createCustomer,
     getAllCustomers,
     updateCustomer,
     deleteCustomer
 };
   
-export default customerService;
+export default CustomerService;

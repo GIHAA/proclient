@@ -21,12 +21,10 @@ const Home = () => {
   const [searchedResults, setSearchedResults] = useState([])
   const [loading, setLoading] = useState(true)
 
-
-  const toggleDropdown = (itemId :any) => {
+  const toggleDropdown = (itemId: any) => {
     setShowDropdown(!showDropdown)
     setSelectedItemId(itemId)
   }
-
 
   const fetchData = async () => {
     setLoading(true)
@@ -34,9 +32,7 @@ const Home = () => {
       const response = await customerService.getAllCustomers()
 
       if (response.status === 200) {
-        console.log(response.data.results)
         setData(response.data.results)
-        setSearchedResults(response.data.results)
         setLoading(false)
       } else {
         console.error("Error fetching data:", response.statusText)
@@ -53,12 +49,11 @@ const Home = () => {
     setLoading(false)
   }, [])
 
-  const handleShow = (itemId:string) => {
+  const handleShow = (itemId: string) => {
     console.log(`Show item with ID: ${itemId}`)
   }
 
-
-  const handleDelete = async (cus :any) => {
+  const handleDelete = async (cus: any) => {
     try {
       toast.warn(
         <div>
@@ -77,7 +72,7 @@ const Home = () => {
               }}
               onClick={async () => {
                 const response = await customerService.deleteCustomer(cus.id)
-    
+
                 if (response.status === 204) {
                   toast.success(`${cus.firstName} removed successfully`)
                   setData((prevItems) =>
@@ -104,30 +99,15 @@ const Home = () => {
         { autoClose: false },
       )
     } catch (error) {
-      toast.error(error as ToastContent<unknown>);
+      toast.error(error as ToastContent<unknown>)
     }
   }
 
 
-  const filterPrompts = (searchtext : string) => {
-    const regex = new RegExp(searchtext, "i")
-    return data.filter(
-      (one) => regex.test(one.firstName ) || regex.test(one.lastName),
-    )
+
+  const handleSearchChange = () => {
+
   }
-
-  const handleSearchChange = (e) => {
-    clearTimeout(searchTimeout)
-    setSearchText(e.target.value)
-    setSearchTimeout(
-      setTimeout(() => {
-        const searchResult = filterPrompts(e.target.value)
-        setSearchedResults(searchResult)
-      }, 500),
-    )
-  }
-
-
 
   return (
     <>
@@ -241,20 +221,18 @@ const Home = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          {searchedResults.map((item) => {
-                             const dob = new Date(item.dob);
-                             const currentDate = new Date();
-                             const age = currentDate.getFullYear() - dob.getFullYear();
+                          {data.map((item) => {
+                            const dob = new Date(item.dob)
+                            const currentDate = new Date()
+                            const age =
+                              currentDate.getFullYear() - dob.getFullYear()
 
-                             
                             return (
                               <>
                                 <tr
                                   key={item.id}
                                   className="border-b dark:border-gray-700"
-                                  onClick={() => {
-                            
-                                  }}
+                                  onClick={() => {}}
                                 >
                                   <th
                                     scope="row"
@@ -262,13 +240,15 @@ const Home = () => {
                                   >
                                     {item.id}7&#34;
                                   </th>
-                                  <td className="px-4 py-3">{item.firstName}  {item.lastName}</td>
                                   <td className="px-4 py-3">
-                                    {item.email}
+                                    {item.firstName} {item.lastName}
                                   </td>
+                                  <td className="px-4 py-3">{item.email}</td>
                                   <td className="px-4 py-3">{item.gender}</td>
                                   <td className="px-4 py-3">{age}</td>
-                                  <td className="px-4 py-3">+{item.phoneNumber}</td>
+                                  <td className="px-4 py-3">
+                                    +{item.phoneNumber}
+                                  </td>
 
                                   <td className="px-4 py-3 flex items-center justify-end relative">
                                     <button
@@ -298,14 +278,16 @@ const Home = () => {
                                             aria-labelledby={`dropdown-button-${item.id}`}
                                           >
                                             <li>
-                                    <a
-                                      href="#"
-                                      onClick={() => handleShow(item.id)}
-                                      className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                    >
-                                      Show
-                                    </a>
-                                  </li>
+                                              <a
+                                                href="#"
+                                                onClick={() =>
+                                                  handleShow(item.id)
+                                                }
+                                                className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                              >
+                                                Show
+                                              </a>
+                                            </li>
                                             <li>
                                               <a
                                                 href="#"
@@ -352,14 +334,19 @@ const Home = () => {
       </div>
 
       {displayUpdateFrom && (
-        <EditCustomerForm setDisplayUpdateForm={setDisplayUpdateForm}  fetchData={fetchData} target={target} />
+        <EditCustomerForm
+          setDisplayUpdateForm={setDisplayUpdateForm}
+          fetchData={fetchData}
+          target={target}
+        />
       )}
 
       {displayCreateFrom && (
-        <CreateCustomerForm  setDisplayCreateFrom={setDisplayCreateFrom}  fetchData={fetchData} />
+        <CreateCustomerForm
+          setDisplayCreateFrom={setDisplayCreateFrom}
+          fetchData={fetchData}
+        />
       )}
-
-      
     </>
   )
 }
