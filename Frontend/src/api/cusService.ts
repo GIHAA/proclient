@@ -21,8 +21,8 @@ const getAllCustomers = async (page: number = 0, size : number = 10) =>{
     return response;
 }
 
-const searchCustomers = async (searchTerm : string) =>{
-    const response = await axios.get(`${BE_URL}/customer/search?searchTerm=${searchTerm}`);
+const searchCustomers = async (searchType: string ,  searchTerm : string) =>{
+    const response = await axios.get(`${BE_URL}/customer/search?searchType=${searchType}&searchTerm=${searchTerm}`);
     return response;
 }
 

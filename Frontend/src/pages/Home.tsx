@@ -21,6 +21,7 @@ const Home = () => {
   const [pageSize, setPageSize] = useState(10)
   const [totalPages, setTotalPages] = useState(0)
   const [totalElements, setTotalElements] = useState(0)
+  const [searchType, setSearchType] = useState("NAME" as string)
 
   const toggleDropdown = (itemId: any) => {
     setShowDropdown(!showDropdown)
@@ -109,15 +110,18 @@ const Home = () => {
     setLoading(true)
     const searchValue = event.target.value
     customerService
-      .searchCustomers(searchValue)
+      .searchCustomers(searchType , searchValue)
       .then((response) => {
         if (response.status === 200) {
+          setLoading(false)
           setData(response.data.results[0].content)
         } else {
+          setLoading(false)
           console.error("Error fetching data:", response.statusText)
         }
       })
       .catch((error) => {
+        setLoading(false)
         console.error("Error fetching data:", error)
       })
   }
@@ -158,6 +162,19 @@ const Home = () => {
                           onChange={handleSearchChange}
                         />
                       </div>
+
+                      <select
+                    id="tags"
+                    name="tags"
+           
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block  ml-2 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    onChange={(e) => { setSearchType(e.target.value) }
+                    }
+                  >
+                    <option value="NAME">Search by Name</option>
+                    <option value="EMAIL">Search by Email</option>
+                    <option value="BOTH">Search by Both</option>
+                  </select>
                     </form>
                   </div>
                   <div className="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">

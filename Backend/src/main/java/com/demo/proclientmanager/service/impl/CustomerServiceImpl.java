@@ -149,34 +149,33 @@ public class CustomerServiceImpl implements CustomerService {
 
         customerDao.delete(customerToDelete);
 
-        CustomerResponseDto customerResponseDto  = customerToCustomerResponceDto(customerToDelete);
-        return new ResponseEntityDto(false, customerResponseDto);
+        return new ResponseEntityDto(false, customerToDelete);
     }
 
     @Override
-    public ResponseEntityDto searchCustomers(String searchTerm, int page, int size) {
-        if (searchTerm == null || searchTerm.isEmpty()) {
-            throw new ModuleException("Search term cannot be empty");
-        }
-
+    public ResponseEntityDto searchCustomers(String searchField, String searchTerm, int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
-        Page<Customer> searchResults = customerDao.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCaseOrEmailContainingIgnoreCase(searchTerm, searchTerm, searchTerm, pageRequest);
+        Page<Customer> searchResults = null;
+
+        switch (searchField.toUpperCase()) {
+            case "BOTH":
+                searchResults = customerDao.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCaseOrEmailContainingIgnoreCase(searchTerm, searchTerm, searchTerm, pageRequest);
+                break;
+            case "NAME":
+                searchResults = customerDao.findByFirstNameContainingIgnoreCaseAndLastNameContainingIgnoreCase(searchTerm, searchTerm, pageRequest);
+                break;
+            case "EMAIL":
+                searchResults = customerDao.findByEmailContainingIgnoreCase(searchTerm, pageRequest);
+                break;
+            default:
+                searchResults = customerDao.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCaseOrEmailContainingIgnoreCase(searchTerm, searchTerm, searchTerm, pageRequest);
+                break;
+        }
 
         return new ResponseEntityDto(false, searchResults);
     }
 
-    public CustomerResponseDto customerToCustomerResponceDto(Customer customer) {
-        CustomerResponseDto customerResponseDto = new CustomerResponseDto();
-        customerResponseDto.setId(customer.getId());
-        customerResponseDto.setGender(customer.getGender());
-        customerResponseDto.setEmail(customer.getEmail());
-        customerResponseDto.setFirstName(customer.getFirstName());
-        customerResponseDto.setLastName(customer.getLastName());
-        customerResponseDto.setDob(customer.getDob());
-        customerResponseDto.setPhoneNumber(customer.getPhoneNumber());
 
-        return  customerResponseDto;
-    }
 
     public Customer customerCreateDtoToCustomer(CustomerCreateDto customerCreateDto) {
         Customer customer = new Customer();

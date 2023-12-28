@@ -14,6 +14,6 @@ public interface CustomerService {
 
     ResponseEntityDto deleteCustomer(String id);
     ResponseEntityDto editCustomer(CustomerEditDto customer);
-    ResponseEntityDto searchCustomers(String searchTerm, int page, int size);
+    ResponseEntityDto searchCustomers(String searchField, String searchTerm, int page, int size);
 
 }

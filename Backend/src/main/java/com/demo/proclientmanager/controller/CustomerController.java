@@ -43,10 +43,11 @@ public class CustomerController {
 
     @GetMapping("/search")
     public ResponseEntity<ResponseEntityDto> searchCustomers(
+            @RequestParam String searchField,
             @RequestParam String searchTerm,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        ResponseEntityDto response = customerService.searchCustomers(searchTerm, page, size);
+        ResponseEntityDto response = customerService.searchCustomers(searchField ,searchTerm, page, size);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     @PutMapping

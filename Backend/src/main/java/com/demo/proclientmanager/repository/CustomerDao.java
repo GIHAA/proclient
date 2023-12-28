@@ -14,4 +14,9 @@ public interface CustomerDao extends MongoRepository <Customer , String> {
 
     Page<Customer> findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCaseOrEmailContainingIgnoreCase(
             String firstName, String lastName, String email, Pageable pageable);
+
+    Page<Customer> findByFirstNameContainingIgnoreCaseAndLastNameContainingIgnoreCase(
+            String firstName, String lastName, Pageable pageable);
+
+    Page<Customer> findByEmailContainingIgnoreCase(String email, Pageable pageable);
 }
