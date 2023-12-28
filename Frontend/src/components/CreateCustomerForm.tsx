@@ -22,20 +22,6 @@ const CreateCustomerForm = ({setDisplayCreateFrom , fetchData } : any) => {
 
   const upLoadImage = async () => {}
 
-  // const displayValues = () => {
-  //   const values = {
-  //     imageUrl,
-  //     firstName: firstName.value,
-  //     lastName: lastName.value,
-  //     email: email.value,
-  //     phoneNumber: phoneNumber.value,
-  //     gender: gender.value,
-  //     dob: dob.value,
-  //   };
-  //   alert(JSON.stringify(values, null, 2));
-  // };
-
-
   const onAddCustomer = () => {
     const firstNameError = inputValidator(firstName.value)
     const lastNameError = inputValidator(lastName.value)
@@ -229,33 +215,6 @@ const CreateCustomerForm = ({setDisplayCreateFrom , fetchData } : any) => {
                     <option value="PREFER_NOT_TO_SAY">Prefer not to say</option>
                     <option value="OTHER">Other</option>
                   </select>
-                </div>
-
-                <div className="w-full">
-                  <div className="">
-                    {imageUrl && (
-                      <img
-                        src={imageUrl}
-                        alt="Uploaded"
-                        className="w-[120px] h-[100px]"
-                        style={{ maxWidth: "100%" }}
-                      />
-                    )}
-                  </div>
-                  <input
-                    type="file"
-                    name="image"
-                    id="image"
-                    accept="image/*"
-                    className="hidden"
-                    onChange={upLoadImage}
-                  />
-                  <button
-                    className=" text-white outline-dashed outline-2 outline-offset-2 outline-blue-600 rounded-lg p-[6px]  mt-8 w-full text "
-              
-                  >
-                    Upload Image
-                  </button>
                 </div>
               </div>
 

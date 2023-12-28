@@ -7,69 +7,8 @@ import { toast } from "react-toastify"
 import customerService from "../api/cusService"
 import { phoneNumebrValidator } from "../helpers/phoneNumebrValidator"
 
-const EditCustomerForm = ({ setDisplayUpdateForm, fetchData, target }: any) => {
-  const [imageUrl, setImageUrl] = useState("")
-  const [firstName, setfirstName] = useState({ value: "", error: "" })
-  const [lastName, setlastName] = useState({ value: "", error: "" })
-  const [email, setemail] = useState({ value: "", error: "" })
-  const [phoneNumber, setphoneNumber] = useState({ value: "", error: "" })
-  const [gender, setGender] = useState({ value: "", error: "" })
-  const [dob, setdob] = useState({ value: "", error: "" })
+const ShowCustomer = ({ setDisplayUpdateForm, fetchData, target }: any) => {
 
-  const upLoadImage = async () => {}
-
-  const onUpdateCustomer = async () => {
-    const updatedFields: any = {
-      id: target.id,
-    }
-
-    const fieldsToCheck = [
-      { input: firstName, targetKey: "firstName" },
-      { input: lastName, targetKey: "lastName" },
-      { input: email, targetKey: "email" },
-      { input: phoneNumber, targetKey: "phoneNumber" },
-      { input: gender, targetKey: "gender" },
-      { input: dob, targetKey: "dob" },
-    ]
-
-    fieldsToCheck.forEach(({ input, targetKey }) => {
-      if (input.value !== target[targetKey]) {
-        updatedFields[targetKey] = input.value
-      }
-    })
-
-    if (Object.keys(updatedFields).length > 1) {
-      try {
-        const res = await customerService.updateCustomer(updatedFields)
-        toast.success("Customer successfully updated")
-        fetchData()
-        setDisplayUpdateForm(false)
-      } catch (err) {
-        setDisplayUpdateForm(false)
-        toast.error(`Error: ${err}`)
-      }
-    } else {
-      setDisplayUpdateForm(false)
-      toast.info("No changes were made.")
-    }
-  }
-
-  const handleOnPhoneNumberChange = (
-    value: string,
-    country: { countryCode: string },
-  ) => {
-    const PhoneValidationError = phoneNumebrValidator(value, country)
-    setphoneNumber({ value, error: PhoneValidationError })
-  }
-
-  useEffect(() => {
-    setfirstName({ ...firstName, value: target.firstName })
-    setlastName({ ...lastName, value: target.lastName })
-    setemail({ ...email, value: target.email })
-    setphoneNumber({ ...phoneNumber, value: target.phoneNumber })
-    setGender({ ...gender, value: target.gender })
-    setdob({ ...dob, value: target.dob })
-  }, [])
 
   return (
     <>
@@ -291,4 +230,4 @@ const EditCustomerForm = ({ setDisplayUpdateForm, fetchData, target }: any) => {
   )
 }
 
-export default EditCustomerForm
+export default ShowCustomer

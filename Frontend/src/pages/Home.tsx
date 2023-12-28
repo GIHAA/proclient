@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react"
 import { toast, ToastContent } from "react-toastify"
-import Sidebar from "./Sidebar"
-import Placeholder from "./PlaceHolder"
+import Sidebar from "../components/Sidebar"
+import Placeholder from "../components/PlaceHolder"
 import { PdfGenerator } from "../utils/pdfGenerator"
 import CreateCustomerForm from "../components/CreateCustomerForm"
 import customerService from "../api/cusService"
 import EditCustomerForm from "../components/EditCustomerForm"
-import { stringify } from "postcss"
+
 
 const Home = () => {
   const [displayCreateFrom, setDisplayCreateFrom] = useState(false)
@@ -81,10 +81,7 @@ const Home = () => {
                 if (response.status === 204) {
                   toast.success(`${cus.firstName} removed successfully`)
                   setData((prevItems) =>
-                    prevItems.filter((data) => data.id !== cus.id),
-                  )
-                  setSearchedResults((prevItems) =>
-                    prevItems.filter((data) => data.id !== cus.id),
+                    prevItems.filter((data : any) => data.id !== cus.id),
                   )
                 } else {
                   toast.error("Removing failed")
@@ -109,6 +106,7 @@ const Home = () => {
   }
 
   const handleSearchChange = (event: any) => {
+    setLoading(true)
     const searchValue = event.target.value
     customerService
       .searchCustomers(searchValue)
@@ -119,13 +117,14 @@ const Home = () => {
           console.error("Error fetching data:", response.statusText)
         }
       })
-      .catch((error) => {})
+      .catch((error) => {
+        console.error("Error fetching data:", error)
+      })
   }
 
   return (
     <>
       <Sidebar />
-
       <div className=" md:ml-64 h-auto ml-[75px] ">
         <div className=" rounded-lg  dark:border-gray-600 h-screen ">
           <section className="bg-gray-50 dark:bg-gray-900 h-screen p-3 sm:p-5">
@@ -221,7 +220,7 @@ const Home = () => {
                               Gender
                             </th>
                             <th scope="col" className="px-4 py-3">
-                              Dob
+                              Age
                             </th>
                             <th scope="col" className="px-4 py-3">
                               Contact
@@ -232,7 +231,7 @@ const Home = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          {data.map((item) => {
+                          {data.map((item : any)  => {
                             const dob = new Date(item.dob)
                             const currentDate = new Date()
                             const age =
@@ -249,7 +248,7 @@ const Home = () => {
                                     scope="row"
                                     className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                   >
-                                    {item.id};
+                                    {item.id}
                                   </th>
                                   <td className="px-4 py-3">
                                     {item.firstName} {item.lastName}
@@ -403,7 +402,7 @@ const Home = () => {
           </section>
         </div>
       </div>
-
+      
       {displayUpdateFrom && (
         <EditCustomerForm
           setDisplayUpdateForm={setDisplayUpdateForm}
