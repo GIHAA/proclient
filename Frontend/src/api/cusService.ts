@@ -45,3 +45,4 @@ const CustomerService = {
     searchCustomers
 };
   
+export default CustomerService;
