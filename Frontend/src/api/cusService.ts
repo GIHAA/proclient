@@ -3,6 +3,7 @@ import axios from "axios";
 
 const  BE_URL = "https://full-stack-project-zds1.onrender.com/api/v1"
 
+
 interface CustomerCreatePayload {
     name: string;
 }
@@ -22,7 +23,7 @@ const getAllCustomers = async (page: number = 0, size : number = 10) =>{
 }
 
 const searchCustomers = async (searchType: string ,  searchTerm : string) =>{
-    const response = await axios.get(`${BE_URL}/customer/search?searchType=${searchType}&searchTerm=${searchTerm}`);
+    const response = await axios.get(`${BE_URL}/customer/search?searchField=${searchType}&searchTerm=${searchTerm}`);
     return response;
 }
 
@@ -44,4 +45,3 @@ const CustomerService = {
     searchCustomers
 };
   
-export default CustomerService;

@@ -156,7 +156,6 @@ public class CustomerServiceImpl implements CustomerService {
     public ResponseEntityDto searchCustomers(String searchField, String searchTerm, int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
         Page<Customer> searchResults = null;
-
         switch (searchField.toUpperCase()) {
             case "BOTH":
                 searchResults = customerDao.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCaseOrEmailContainingIgnoreCase(searchTerm, searchTerm, searchTerm, pageRequest);
