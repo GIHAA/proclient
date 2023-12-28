@@ -22,66 +22,65 @@ class CustomerDaoTest {
 
     @Test
     void testFindCustomerByEmail() {
-        // Arrange
         Customer customer = new Customer();
         customer.setEmail("test@example.com");
         customerDao.save(customer);
 
-        // Act
         Optional<Customer> result = customerDao.findCustomerByEmail("test@example.com");
 
-        // Assert
         assertEquals(customer, result.orElse(null));
+
+        customerDao.delete(customer);
     }
 
 
     @Test
     void testFindByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCaseOrEmailContainingIgnoreCase() {
-        // Arrange
+
         Customer customer = new Customer();
         customer.setFirstName("John");
         customer.setLastName("Doe");
         customer.setEmail("john.doe@example.com");
         customerDao.save(customer);
 
-        // Act
+
         Page<Customer> result = customerDao.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCaseOrEmailContainingIgnoreCase(
                 "John", "Doe", "john.doe@example.com", PageRequest.of(0, 10));
 
-        // Assert
         assertEquals(1, result.getTotalElements());
         assertEquals(customer, result.getContent().get(0));
+
+        customerDao.delete(customer);
     }
 
     @Test
     void testFindByFirstNameContainingIgnoreCaseAndLastNameContainingIgnoreCase() {
-        // Arrange
         Customer customer = new Customer();
         customer.setFirstName("John");
         customer.setLastName("Doe");
         customerDao.save(customer);
 
-        // Act
         Page<Customer> result = customerDao.findByFirstNameContainingIgnoreCaseAndLastNameContainingIgnoreCase(
                 "John", "Doe", PageRequest.of(0, 10));
 
-        // Assert
         assertEquals(1, result.getTotalElements());
         assertEquals(customer, result.getContent().get(0));
+
+        customerDao.delete(customer);
     }
 
     @Test
     void testFindByEmailContainingIgnoreCase() {
-        // Arrange
+
         Customer customer = new Customer();
         customer.setEmail("test@example.com");
         customerDao.save(customer);
 
-        // Act
         Page<Customer> result = customerDao.findByEmailContainingIgnoreCase("test@example.com", PageRequest.of(0, 10));
 
-        // Assert
         assertEquals(1, result.getTotalElements());
         assertEquals(customer, result.getContent().get(0));
+
+        customerDao.delete(customer);
     }
 }
