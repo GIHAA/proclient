@@ -26,5 +26,5 @@ jobs:
         docker buildx build --platform linux/amd64,linux/arm64 -t ${{ secrets.DOCKERHUB_USERNAME }}/your-image-name:latest -f Backend/Dockerfile Backend
         docker push ${{ secrets.DOCKERHUB_USERNAME }}/your-image-name:latest
       env:
-        DOCKER_CLI_ACI=1
-        CONTAINER=oci
+        DOCKER_CLI_ACI: 1
+        CONTAINER: oci
