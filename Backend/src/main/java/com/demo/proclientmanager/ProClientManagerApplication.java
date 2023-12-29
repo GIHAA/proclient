@@ -10,6 +10,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @SpringBootApplication
 @ComponentScan("com.demo.proclientmanager")
 @EntityScan("com.demo.proclientmanager.model")
+
 public class ProClientManagerApplication {
 
 	public static void main(String[] args) {

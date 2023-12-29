@@ -11,8 +11,8 @@ FROM maven:3.8.3-openjdk-17 AS BUILDER
 
 WORKDIR /opt/app
 
-COPY --from=deps /root/.m2 /root/.m2
-COPY --from=deps /opt/app/ /opt/app
+COPY --from=DEPS /root/.m2 /root/.m2
+COPY --from=DEPS /opt/app/ /opt/app
 
 COPY src /opt/app/src
 
@@ -22,6 +22,6 @@ FROM gcr.io/distroless/java17-debian11
 
 WORKDIR /opt/app
 
-COPY --from=builder /opt/app/target/*.jar pro-client-manager.jar
+COPY --from=BUILDER /opt/app/target/*.jar pro-client-manager.jar
 
 ENTRYPOINT ["java", "-jar", "/opt/app/pro-client-manager.jar"]
