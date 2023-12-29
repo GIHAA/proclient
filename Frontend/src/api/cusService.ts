@@ -5,14 +5,25 @@ const  BE_URL = "https://proclient.azurewebsites.net/api/v1"
 
 
 interface CustomerCreatePayload {
-    name: string;
+    firstName: string,
+    lastName:string,
+    email:string,
+    phoneNumber:string,
+    gender:string,
+    dob:string,
 }
 
 interface CustomerUpdatePayload {
-    name: string;
+    id:string
+    firstName: string,
+    lastName:string,
+    email:string,
+    phoneNumber:string,
+    gender:string,
+    dob:string,
 }
 
-const createCustomer = async (payload:any) =>{
+const createCustomer = async (payload:CustomerCreatePayload) =>{
     const response = await axios.post(`${BE_URL}/customer`, payload);
     return response;
 }
@@ -27,7 +38,7 @@ const searchCustomers = async (searchType: string ,  searchTerm : string) =>{
     return response;
 }
 
-const updateCustomer = async (payload : any) =>{
+const updateCustomer = async (payload : CustomerUpdatePayload) =>{
     const response = await axios.put(`${BE_URL}/customer`, payload);
     return response;
 }

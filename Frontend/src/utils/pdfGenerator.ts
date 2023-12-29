@@ -40,7 +40,7 @@ export const PdfGenerator = ( total: number ,  data : any) => {
   doc.setTextColor("#000000");
 
   doc.setFontSize(20);
-  doc.text(`Total number of records : ${total}`, 30, 135);
+  doc.text(`Total number of clients : ${total}`, 30, 135);
 
   // Add table with data
   doc.setTextColor("#999999");
