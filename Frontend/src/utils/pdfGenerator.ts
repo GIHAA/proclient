@@ -10,7 +10,7 @@ export const PdfGenerator = ( total: number ,  data : any) => {
   const pdf_title = "Customer Report";
   const pdf_email = "info@proclient.com";
   const pdf_phone = "+94 11 234 5678";
-  const pdf_address = "Address: No 221/B, Peradeniya Road, Kandy";
+  const pdf_address = " No 221/B, Peradeniya Road, Kandy";
 
   const doc = new jsPDF("landscape", "px", "a4", false);
   const today = new Date();
