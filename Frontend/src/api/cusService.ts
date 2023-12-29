@@ -1,7 +1,7 @@
 import axios from "axios";
 ;
 
-const  BE_URL = "https://full-stack-project-zds1.onrender.com/api/v1"
+const  BE_URL = "https://proclient.azurewebsites.net/api/v1"
 
 
 interface CustomerCreatePayload {
