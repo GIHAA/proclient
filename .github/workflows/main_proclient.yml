@@ -8,44 +8,42 @@ on:
 
 jobs:
   build:
-    runs-on: 'ubuntu-latest'
-
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-      with:
-        path: Backend  # Set the path to the Backend directory
-
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
-
-    - name: Log in to registry
-      uses: docker/login-action@v2
-      with:
-        registry: https://mcr.microsoft.com/
-        username: ${{ secrets.AzureAppService_ContainerUsername_bfcbaffc8abc49dc862aef2d3105fd6e }}
-        password: ${{ secrets.AzureAppService_ContainerPassword_ce3b0a9ba6b64b2fa3113f41a643c55d }}
-
-    - name: Build and push container image to registry
-      uses: docker/build-push-action@v3
-      with:
-        push: true
-        tags: mcr.microsoft.com/${{ secrets.AzureAppService_ContainerUsername_bfcbaffc8abc49dc862aef2d3105fd6e }}/appsvc/staticsite:${{ github.sha }}
-        file: ./Backend/Dockerfile  # Set the path to your Dockerfile in the Backend directory
-
-  deploy:
     runs-on: ubuntu-latest
-    needs: build
-    environment:
-      name: 'production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
-    - name: Deploy to Azure Web App
-      id: deploy-to-webapp
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: 'proclient'
-        slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_b163e4b1ca014143bf98635cf8625a7f }}
-        images: 'mcr.microsoft.com/${{ secrets.AzureAppService_ContainerUsername_bfcbaffc8abc49dc862aef2d3105fd6e }}/appsvc/staticsite:${{ github.sha }}'
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log in to container registry
+        uses: docker/login-action@v2
+        with:
+          registry: https://mcr.microsoft.com/
+          username: ${{ secrets.AzureAppService_ContainerUsername_bfcbaffc8abc49dc862aef2d3105fd6e }}
+          password: ${{ secrets.AzureAppService_ContainerPassword_ce3b0a9ba6b64b2fa3113f41a643c55d }}
+
+      - name: Build and push container image to registry
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          tags: mcr.microsoft.com/${{ secrets.AzureAppService_ContainerUsername_bfcbaffc8abc49dc862aef2d3105fd6e }}/appsvc/staticsite:${{ github.sha }}
+          file: ./Dockerfile
+
+    deploy:
+      runs-on: ubuntu-latest
+      needs: build
+      environment:
+        name: 'production'
+        url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+      steps:
+        - name: Deploy to Azure Web App
+          id: deploy-to-webapp
+          uses: azure/webapps-deploy@v2
+          with:
+            app-name: 'proclient'
+            slot-name: 'production'
+            publish-profile: ${{ secrets.AzureAppService_PublishProfile_b163e4b1ca014143bf98635cf8625a7f }}
+            images: 'mcr.microsoft.com/${{ secrets.AzureAppService_ContainerUsername_bfcbaffc8abc49dc862aef2d3105fd6e }}/appsvc/staticsite:${{ github.sha }}'
