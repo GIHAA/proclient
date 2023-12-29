@@ -26,10 +26,8 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: java-app
-          path: 'Backend/target/*.war'
-      
-      - name: List files in Backend directory
-        run: ls -R "${{ github.workspace }}/Backend"
+          path: 'Backend/target/pro-client-manager-0.0.1-SNAPSHOT.war'
+
 
 
   deploy:
