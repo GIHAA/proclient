@@ -27,11 +27,11 @@ jobs:
         password: ${{ secrets.AzureAppService_ContainerPassword_ce3b0a9ba6b64b2fa3113f41a643c55d }}
 
     - name: Build and push container image to registry
-      uses: docker/build-push-action@v3
-      with:
-        push: true
-        tags: mcr.microsoft.com/${{ secrets.AzureAppService_ContainerUsername_bfcbaffc8abc49dc862aef2d3105fd6e }}/appsvc/staticsite:${{ github.sha }}
-        file: ./Backend/Dockerfile  # Set the path to your Dockerfile in the Backend directory
+      working-directory: Backend  # Set the working directory to Backend
+      run: |
+        docker buildx create --use
+        docker buildx inspect
+        docker buildx build --platform linux/amd64,linux/arm64 -t mcr.microsoft.com/${{ secrets.AzureAppService_ContainerUsername_bfcbaffc8abc49dc862aef2d3105fd6e }}/appsvc/staticsite:${{ github.sha }} .
 
   deploy:
     runs-on: ubuntu-latest
