@@ -23,11 +23,9 @@ jobs:
         working-directory: Backend  # Set the working directory to "Backend"
 
       - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v3
-        with:
-          name: java-app
-          path: 'Backend/target/pro-client-manager-0.0.1-SNAPSHOT.war'
-
+        run: |
+          find Backend/target -name '*.war' -exec mv {} "${{ github.workspace }}/Backend/target/pro-client-manager-0.0.1-SNAPSHOT.war" \;
+        shell: bash
 
 
   deploy:
