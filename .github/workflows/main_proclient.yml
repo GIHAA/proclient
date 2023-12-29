@@ -13,18 +13,14 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
-
     - name: Login to Docker Hub
       run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login --username "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
     - name: Build and Push Docker Image
       run: |
-        docker buildx create --use
-        docker buildx inspect --bootstrap
-        docker buildx build --platform linux/amd64,linux/arm64 -t ${{ secrets.DOCKERHUB_USERNAME }}/your-image-name:latest -f Backend/Dockerfile Backend
+        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/proclient:latest -f Backend/Dockerfile Backend
         docker push ${{ secrets.DOCKERHUB_USERNAME }}/proclient:latest
       env:
         DOCKER_CLI_ACI: 1
         CONTAINER: oci
+
