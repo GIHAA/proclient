@@ -20,12 +20,9 @@ jobs:
 
       - name: Navigate to Backend folder
         run: cd Backend
-        
-      - name: debug
-        run: ls
 
       - name: Build with Maven
-        run: mvn clean install
+        run: cd Backend && mvn clean install
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
