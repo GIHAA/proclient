@@ -60,7 +60,7 @@ class CustomerDaoTest {
         customer.setLastName("Doe");
         customerDao.save(customer);
 
-        Page<Customer> result = customerDao.findByFirstNameContainingIgnoreCaseAndLastNameContainingIgnoreCase(
+        Page<Customer> result = customerDao.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(
                 "John", "Doe", PageRequest.of(0, 10));
 
         assertEquals(1, result.getTotalElements());

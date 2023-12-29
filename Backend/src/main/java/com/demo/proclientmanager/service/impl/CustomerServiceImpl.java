@@ -161,7 +161,7 @@ public class CustomerServiceImpl implements CustomerService {
                 searchResults = customerDao.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCaseOrEmailContainingIgnoreCase(searchTerm, searchTerm, searchTerm, pageRequest);
                 break;
             case "NAME":
-                searchResults = customerDao.findByFirstNameContainingIgnoreCaseAndLastNameContainingIgnoreCase(searchTerm, searchTerm, pageRequest);
+                searchResults = customerDao.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(searchTerm, searchTerm, pageRequest);
                 break;
             case "EMAIL":
                 searchResults = customerDao.findByEmailContainingIgnoreCase(searchTerm, pageRequest);
