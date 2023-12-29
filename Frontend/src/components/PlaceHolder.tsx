@@ -3,7 +3,7 @@ import { Oval } from "react-loader-spinner"
 
 const PlaceHolder = () => {
   return (
-    <div className="mt-40">
+    <div data-testid="place-holder" className="mt-40">
       <Oval
         height={80}
         width={80}

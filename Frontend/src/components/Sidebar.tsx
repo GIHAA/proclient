@@ -1,23 +1,11 @@
 import React from "react"
-import { useState, useEffect } from "react"
-import Footer from "./Footer"
+
 
 const Sidebar = () => {
-  const currentTime = new Date()
-  const hours = currentTime.getHours()
-  let greeting
-
-  if (hours < 12) {
-    greeting = "Good morning"
-  } else if (hours < 18) {
-    greeting = "Good afternoon"
-  } else {
-    greeting = "Good evening"
-  }
 
   return (
     <>
-      <div className="antialiased bg-gray-50 dark:bg-gray-900">
+      <div data-testid="side-bar" className="antialiased bg-gray-50 dark:bg-gray-900">
         <aside
           className="fixed top-0 left-0 z-40 w-64 h-screen pt-14 transition-transform -translate-x-[180px] bg-white border-r border-gray-200 md:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
           aria-label="Sidenav"
