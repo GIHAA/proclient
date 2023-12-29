@@ -10,7 +10,6 @@ import { inputValidator } from "../helpers/inputValidator"
 import { phoneNumebrValidator } from "../helpers/phoneNumebrValidator"
 
 const CreateCustomerForm = ({setDisplayCreateFrom , fetchData } : any) => {
-  const [imageUrl, setImageUrl] = useState("")
   const [firstName, setfirstName] = useState({ value: "", error: "" })
   const [lastName, setlastName] = useState({ value: "", error: "" })
   const [email, setemail] = useState({ value: "", error: "" })
