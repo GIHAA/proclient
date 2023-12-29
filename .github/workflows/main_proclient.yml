@@ -27,6 +27,10 @@ jobs:
         with:
           name: java-app
           path: 'Backend/target/*.war'
+      
+      - name: List files in Backend directory
+        run: ls -R "${{ github.workspace }}/Backend"
+
 
   deploy:
     runs-on: ubuntu-latest
