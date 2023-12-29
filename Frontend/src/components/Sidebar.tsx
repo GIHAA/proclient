@@ -18,37 +18,6 @@ const Sidebar = () => {
   return (
     <>
       <div className="antialiased bg-gray-50 dark:bg-gray-900">
-        <nav className="bg-white border-b border-gray-200 px-4 py-2.5 dark:bg-gray-800 dark:border-gray-700 fixed left-0 right-0 top-0 z-50">
-          <div className="flex flex-wrap justify-between items-center">
-            <div className="flex justify-start items-center">
-              <a href="/" className="flex items-center justify-between mr-4">
-                <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-                ProClient Manager
-                </span>
-              </a>
-            </div>
-            <div className="flex items-center lg:order-2">
-              <button
-                type="button"
-                data-dropdown-toggle="notification-dropdown"
-                className="p-2 mr-1 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-              >
-                <svg
-                  aria-hidden="true"
-                  className="w-6 h-6"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"></path>
-                </svg>
-              </button>
-            </div>
-          </div>
-        </nav>
-
-        {/* <!-- Sidebar --> */}
-
         <aside
           className="fixed top-0 left-0 z-40 w-64 h-screen pt-14 transition-transform -translate-x-[180px] bg-white border-r border-gray-200 md:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
           aria-label="Sidenav"
@@ -67,7 +36,9 @@ const Sidebar = () => {
                     className="w-8 order-last md:order-first bg-white rounded-[10px] p-1"
                   />
 
-                  <span className="md:visible invisible ml-3">Customer Management</span>
+                  <span className="md:visible invisible ml-3">
+                    Customer Management
+                  </span>
                 </a>
               </li>
             </ul>

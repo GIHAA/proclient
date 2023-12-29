@@ -5,6 +5,8 @@ import PhoneInput from "react-phone-input-2"
 import "react-phone-input-2/lib/style.css"
 import { toast } from "react-toastify"
 import customerService from "../api/cusService"
+import { emailValidator } from "../helpers/emailValidator"
+import { inputValidator } from "../helpers/inputValidator"
 import { phoneNumebrValidator } from "../helpers/phoneNumebrValidator"
 
 const EditCustomerForm = ({ setDisplayUpdateForm, fetchData, target }: any) => {
@@ -16,11 +18,35 @@ const EditCustomerForm = ({ setDisplayUpdateForm, fetchData, target }: any) => {
   const [gender, setGender] = useState({ value: "", error: "" })
   const [dob, setdob] = useState({ value: "", error: "" })
 
-  const upLoadImage = async () => {}
 
   const onUpdateCustomer = async () => {
     const updatedFields: any = {
       id: target.id,
+    }
+
+    const firstNameError = inputValidator(firstName.value)
+    const lastNameError = inputValidator(lastName.value)
+    const dobError = inputValidator(dob.value)
+    const emailError = emailValidator(email.value)
+    const phoneNumberError = inputValidator(phoneNumber.value)
+    const genderError = inputValidator(gender.value)
+
+    if (
+      emailError ||
+      firstNameError ||
+      lastNameError ||
+      phoneNumber.error ||
+      phoneNumberError ||
+      dobError ||
+      genderError
+    ) {
+      setfirstName({ ...firstName, error: firstNameError })
+      setlastName({ ...lastName, error: lastNameError })
+      setemail({ ...email, error: emailError })
+      setdob({ ...dob, error: dobError })
+      setphoneNumber({ ...phoneNumber, error: phoneNumberError })
+      setGender({ ...gender, error: genderError })
+      return
     }
 
     const fieldsToCheck = [

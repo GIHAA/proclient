@@ -18,9 +18,6 @@ const CreateCustomerForm = ({setDisplayCreateFrom , fetchData } : any) => {
   const [gender, setGender] = useState({ value: "", error: "" })
   const [dob, setdob] = useState({ value: null , error: "" })
 
-  const [value, setValue] = useState()
-
-  const upLoadImage = async () => {}
 
   const onAddCustomer = () => {
     const firstNameError = inputValidator(firstName.value)
@@ -170,7 +167,7 @@ const CreateCustomerForm = ({setDisplayCreateFrom , fetchData } : any) => {
                     } bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500`}>
                     <PhoneInput
                       placeholder="Enter phone number"
-                      value={value}
+                      value={phoneNumber.value}
                       inputStyle={{ width: "220px" }}
                       onChange={handleOnPhoneNumberChange}
                     />

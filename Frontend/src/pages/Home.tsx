@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { toast, ToastContent } from "react-toastify"
 import Sidebar from "../components/Sidebar"
+import Header from "../components/Header"
 import Placeholder from "../components/PlaceHolder"
 import { PdfGenerator } from "../utils/pdfGenerator"
 import CreateCustomerForm from "../components/CreateCustomerForm"
@@ -128,6 +129,7 @@ const Home = () => {
 
   return (
     <>
+      <Header />
       <Sidebar />
       <div className=" md:ml-64 h-auto ml-[75px] ">
         <div className=" rounded-lg  dark:border-gray-600 h-screen ">
@@ -304,17 +306,6 @@ const Home = () => {
                                             className="py-1 text-sm text-gray-700 dark:text-gray-200"
                                             aria-labelledby={`dropdown-button-${item.id}`}
                                           >
-                                            <li>
-                                              <a
-                                                href="#"
-                                                onClick={() =>
-                                                  handleShow(item.id)
-                                                }
-                                                className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                              >
-                                                Show
-                                              </a>
-                                            </li>
                                             <li>
                                               <a
                                                 href="#"
