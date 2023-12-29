@@ -7,6 +7,7 @@ import { PdfGenerator } from "../utils/pdfGenerator"
 import CreateCustomerForm from "../components/CreateCustomerForm"
 import customerService from "../api/cusService"
 import EditCustomerForm from "../components/EditCustomerForm"
+import CustomerService from "../api/cusService"
 
 
 const Home = () => {
@@ -56,8 +57,14 @@ const Home = () => {
     setLoading(false)
   }, [currentPage])
 
-  const handleShow = (itemId: string) => {
-    console.log(`Show item with ID: ${itemId}`)
+  const exportPdf = () => {
+    customerService.getAllCustomers(0, totalElements).then((res) =>{
+      PdfGenerator(totalElements , res.data.results[0].content )
+    }).catch(() => {
+      toast.error("Report genaration failed")
+    })
+    
+  
   }
 
   const handleDelete = async (cus: any) => {
@@ -207,7 +214,7 @@ const Home = () => {
                       type="button"
                       className="inline-flex items-center px-5 py-2.5  text-sm font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-primary-900 hover:bg-blue-800"
                       onClick={() => {
-                        PdfGenerator(data)
+                        exportPdf()
                       }}
                     >
                       Export as PDF
