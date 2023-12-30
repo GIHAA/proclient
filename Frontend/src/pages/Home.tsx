@@ -140,7 +140,7 @@ const Home = () => {
       <Sidebar />
       <div className=" md:ml-64 h-auto ml-[75px] ">
         <div className=" rounded-lg  dark:border-gray-600 h-screen ">
-          <section className="bg-gray-50 dark:bg-gray-900 md:h-auto h-auto lg:h-screen p-3 sm:p-5">
+          <section className="bg-gray-50 dark:bg-gray-900 sm:h-auto md:h-auto lg:h-auto xl:h-screen  p-3 sm:p-5">
             <div className=" mx-auto max-w-screen-xl px-4 lg:px-2  pt-[50px]">
               <div className="bg-white mt-[10px] dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
                 <div className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
