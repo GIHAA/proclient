@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   return (
-    <div className="App">
+    <div className="App dark:bg-gray-900">
       <Home />
       <ToastContainer />
     </div>
