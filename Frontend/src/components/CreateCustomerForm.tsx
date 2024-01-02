@@ -47,7 +47,11 @@ const CreateCustomerForm = ({setDisplayCreateFrom , fetchData } : any) => {
       toast.success("Customer added successfully")
       fetchData()
       setDisplayCreateFrom(false)
-    }).catch((err) => { 
+    }).catch((err) => {
+      if (err.code == 'ERR_BAD_REQUEST') {
+        toast.error(`Customer with ${email.value} already exists`)
+        return
+      }
       toast.error("Something went wrong")
     })
 
