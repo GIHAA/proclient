@@ -54,7 +54,6 @@ const Home = () => {
 
   useEffect(() => {
     fetchData()
-    setLoading(false)
   }, [currentPage])
 
   const exportPdf = () => {
