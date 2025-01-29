@@ -4,6 +4,7 @@ import com.demo.proclientmanager.common.types.Gender;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -16,4 +17,9 @@ public class CustomerResponseDto {
     private String phoneNumber;
     private Gender gender;
     private Date dob;
+    
+    private String createdBy;
+    private LocalDateTime createdDate;
+    private String lastModifiedBy;
+    private LocalDateTime lastModifiedDate;
 }
